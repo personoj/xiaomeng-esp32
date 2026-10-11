@@ -16,7 +16,7 @@ if(-not $vs){throw 'Native simulation requires the existing Visual Studio C++ to
 & (Join-Path $vs 'Common7/Tools/Launch-VsDevShell.ps1') -Arch amd64 -HostArch amd64 -SkipAutomaticLocation | Out-Null
 Push-Location $target
 try {
-    & cl /nologo /std:c11 /W3 /I"$root/tests" /I"$target" /I"$root/managed_components/espressif__cjson/cJSON" "$root/tests/native_playback.c" "$root/main/ptt_capture.c" "$root/managed_components/espressif__cjson/cJSON/cJSON.c" /Fe:native_playback.exe
+    & cl /nologo /std:c11 /W3 /DNATIVE_EXPECT_BATCH_APPEND=1 /I"$root/tests" /I"$target" /I"$root/managed_components/espressif__cjson/cJSON" "$root/tests/native_playback.c" "$root/main/ptt_capture.c" "$root/managed_components/espressif__cjson/cJSON/cJSON.c" /Fe:native_playback.exe
     if($LASTEXITCODE -ne 0){exit $LASTEXITCODE}
     & '.\native_playback.exe'
     if($LASTEXITCODE -ne 0){exit $LASTEXITCODE}
