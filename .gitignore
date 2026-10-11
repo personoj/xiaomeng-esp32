@@ -1,0 +1,17 @@
+.local/
+build/
+managed_components/
+sdkconfig
+sdkconfig.old
+__pycache__/
+
+# Public release excludes all local credentials and personal recordings.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+.local/
+/AGENTS.md
+!/AGENTS.md
+/docs/project-discussion.md

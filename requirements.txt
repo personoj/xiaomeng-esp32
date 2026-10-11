@@ -1,0 +1,9 @@
+# Runtime USB bridge (the same websockets family as xiaoyun-realtime).
+pyserial==3.5
+websockets>=14,<17
+# Only needed when exporting the existing JS character assets.
+Pillow>=10
+playwright>=1.50
+# Only needed for the explicit, one-time fixed voice prompt authoring command.
+numpy>=1.26
+scipy>=1.11

@@ -1,0 +1,18 @@
+{
+  "model": "qwen-audio-3.1-realtime-plus",
+  "voice": "longanqian_v3.1",
+  "sample_rate": 16000,
+  "format": "mono signed PCM16 little-endian",
+  "prompts": {
+    "wake": {
+      "text": "我在。",
+      "samples": 7816,
+      "sha256": "713e383e1bb4e2a39b53c8013a470e9866f00916cbf29071d93f9b71116c51bd"
+    },
+    "sleep": {
+      "text": "好的，我先退下了。",
+      "samples": 22827,
+      "sha256": "6f3b09645e60e3d73c91c777bab7933b33c331fda4b8a56d9f610f5c019ad2e7"
+    }
+  }
+}
