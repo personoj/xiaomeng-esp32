@@ -87,16 +87,23 @@ def main() -> int:
     if not args.legacy_ring_writes:
         flags.append("-DNATIVE_EXPECT_BATCH_APPEND=1")
     common = cc + flags + ["-I" + str(p) for p in includes]
-    for name in ["native_playback", "native_ptt"] + (["native_playback_bench"] if args.benchmark else []):
+    for name in ["native_playback", "native_ptt", "native_process_cpu", "native_playback_bench_timer_failure"] + (["native_playback_bench"] if args.benchmark else []):
         binary = target / (name + (".exe" if os.name == "nt" else ""))
-        command = common + [str(ROOT / "tests" / (name + ".c")),
-                            str(source_root / "main/ptt_capture.c")]
-        if name != "native_ptt":
+        command = common + [str(ROOT / "tests" / (name + ".c"))]
+        if name != "native_process_cpu":
+            command.append(str(source_root / "main/ptt_capture.c"))
+        if name not in ("native_ptt", "native_process_cpu"):
             command += link
         command += ["-o", str(binary)]
         print("+", shlex.join(command), flush=True)
         subprocess.run(command, check=True)
-        subprocess.run([str(binary)], check=True)
+        if name == "native_playback_bench_timer_failure":
+            result = subprocess.run([str(binary)], text=True, capture_output=True)
+            if result.returncode == 0 or result.stdout or "failed" not in result.stderr:
+                raise RuntimeError(f"Expected a clock error and no benchmark output: {result}")
+            print("PASS: failed CPU-clock read aborts benchmark without a timing report", flush=True)
+        else:
+            subprocess.run([str(binary)], check=True)
     return 0
 
 

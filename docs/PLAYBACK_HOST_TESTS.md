@@ -100,6 +100,13 @@ the mbedTLS implementation or its decoder performance.
 These are deterministic interleaving tests, not simultaneous-thread stress tests
 or ESP32 acoustic/real-time acceptance.
 
+The host suite also checks its benchmark clock: work must advance process CPU
+time, while a sleep must use less than one quarter of the measured wall interval.
+This relative margin tolerates clock quantization and scheduling delays. Injected
+OS read failures and invalid timestamps must preserve the caller's output; a
+failed read during the benchmark must exit unsuccessfully without emitting a
+timing report.
+
 ## Reproduce baseline and candidate comparison
 
 ```sh
@@ -117,7 +124,10 @@ script records source
 hashes, compiler/platform information, complete repeated timings and lock counts.
 It alternates the order of five before/after runs to reduce warm-up/drift bias.
 
-Each run contains nine batches of 4,000 `playback_event` calls at each chunk size.
+Each run contains nine adaptive batches at each chunk size. A batch adds blocks
+of 4,000 `playback_event` calls until it accumulates at least 250ms of process CPU
+time; `iterations_per_repeat` records the actual count for every batch. A bounded
+iteration limit fails the run if the timer cannot resolve a sufficient batch.
 JSON input is preconstructed; production JSON lookup, fixture Base64 decode, PCM
 allocation/conversion, ACK construction and mocked send are inside the timing.
 The ring/response sequence state is reset between calls, with no DMA consumer in
@@ -125,6 +135,15 @@ the timed loop. Lock primitives count entries and enforce fixture invariants; th
 do **not** model FreeRTOS critical-section cost. Timings are means of process CPU
 nanoseconds per event within a batch. Their distribution is not device packet
 latency or an end-to-end p95/p99.
+
+Windows uses `GetProcessTimes` (kernel + user time); POSIX uses
+`clock_gettime(CLOCK_PROCESS_CPUTIME_ID)`. The JSON identifies the timer. There is
+no elapsed-time fallback: unavailable clocks, failed reads, invalid values or
+backwards time fail the run. All results are collected before emitting JSON, so
+a failure cannot leave a valid partial report. Longer batches account for Windows
+CPU accounting being coarser than its 100ns timestamp unit. Checksums are sampled
+once per repeat, outside the timed loop, so different adaptive iteration counts
+remain comparable.
 
 For an already-known response and complete groups of three input samples:
 
@@ -145,6 +164,12 @@ of 4,000 events per source size and version. Other project workers confirmed the
 CPU-heavy jobs had stopped before this final run; an earlier overlapping audit
 run was explicitly excluded. External host scheduling/frequency variation remains
 possible.
+
+These archived results used the original fixed-batch `clock()` benchmark on
+Debian. They are retained unchanged. Windows CRT `clock()` measures elapsed time,
+so it must not be used to reproduce those CPU claims. New runs use the platform
+CPU clocks and adaptive batch protocol described above; compare before/after in
+the same new run rather than comparing its absolute timings with this archive.
 
 | Source samples | Baseline median CPU/event | Candidate median CPU/event | Reduction |
 | --- | --- | --- | --- |

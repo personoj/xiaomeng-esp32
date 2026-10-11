@@ -25,7 +25,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--baseline-root", required=True, type=Path)
     parser.add_argument("--output-dir", type=Path, default=ROOT / ".local/playback-benchmark")
-    parser.add_argument("--repeats", type=int, default=5, help="alternating binary pairs; each does 9 batches of 4000 events")
+    parser.add_argument("--repeats", type=int, default=5, help="alternating binary pairs; each does 9 adaptive CPU-time batches per size")
     parser.add_argument("--cc", default=os.environ.get("CC", "cc"))
     parser.add_argument("--cjson-source", type=Path)
     parser.add_argument("--cjson-include", type=Path)
@@ -69,6 +69,9 @@ def main() -> int:
             result = json.loads(subprocess.check_output([str(binaries[label])], text=True))
             raw[label].append(result)
     assert len({r["checksum"] for runs in raw.values() for r in runs}) == 1
+    timers = {r["clock"] for runs in raw.values() for r in runs}
+    if len(timers) != 1:
+        raise RuntimeError("Cannot compare benchmark runs using different CPU clocks.")
     summary = []
     for index in range(len(raw["before"][0]["runs"])):
         item = {"source_samples": raw["before"][0]["runs"][index]["source_samples"]}
@@ -88,14 +91,15 @@ def main() -> int:
     report = {
         "generated_at_utc": datetime.now(timezone.utc).isoformat(),
         "scope": "Synthetic host CPU time for playback_event with preconstructed JSON, mocked decoder and instrumented host locks. No ESP32, real RTOS, API, acoustic, or end-to-end measurement.",
-        "timing_unit": "Each sample is the mean process CPU nanoseconds/event of 4000 sequential events, not a per-packet latency percentile.",
+        "timing_unit": "Each sample is mean process CPU nanoseconds/event of an adaptive batch lasting at least 250ms CPU time; raw runs record each iteration count. Not a per-packet latency percentile.",
         "environment": {"platform": platform.platform(), "python": platform.python_version(),
                         "logical_cpus_reported": os.cpu_count(),
+                        "cpu_timer": timers.pop(),
                         "compiler": subprocess.check_output(shlex.split(args.cc) + ["--version"], text=True).splitlines()[0]},
         "sha256": {"baseline_playback": digest(baseline / "main/playback.c"),
                    "candidate_playback": digest(ROOT / "main/playback.c"),
                    **{name: digest(ROOT / "tests" / name) for name in (
-                       "native_playback_bench.c", "native_mocks.h", "native_audio_helpers.h")}},
+                       "native_playback_bench.c", "native_process_cpu.h", "native_mocks.h", "native_audio_helpers.h")}},
         "alternating_pairs": args.repeats, "summary": summary, "raw_runs": raw,
         "counter_rollover_regression": regression,
     }

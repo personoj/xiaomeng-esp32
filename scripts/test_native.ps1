@@ -23,5 +23,19 @@ try {
     & cl /nologo /std:c11 /W3 "$root/tests/native_ptt.c" "$root/main/ptt_capture.c" /Fe:native_ptt.exe
     if($LASTEXITCODE -ne 0){exit $LASTEXITCODE}
     & '.\native_ptt.exe'
-    exit $LASTEXITCODE
+    if($LASTEXITCODE -ne 0){exit $LASTEXITCODE}
+    & cl /nologo /std:c11 /W3 "$root/tests/native_process_cpu.c" /Fe:native_process_cpu.exe
+    if($LASTEXITCODE -ne 0){exit $LASTEXITCODE}
+    & '.\native_process_cpu.exe'
+    if($LASTEXITCODE -ne 0){exit $LASTEXITCODE}
+    & cl /nologo /std:c11 /W3 /I"$root/tests" /I"$target" /I"$root/managed_components/espressif__cjson/cJSON" "$root/tests/native_playback_bench_timer_failure.c" "$root/main/ptt_capture.c" "$root/managed_components/espressif__cjson/cJSON/cJSON.c" /Fe:native_playback_bench_timer_failure.exe
+    if($LASTEXITCODE -ne 0){exit $LASTEXITCODE}
+    $failureOutput=Join-Path $target 'timer-failure.stdout'
+    $failureError=Join-Path $target 'timer-failure.stderr'
+    $failureRun=Start-Process -FilePath (Join-Path $target 'native_playback_bench_timer_failure.exe') -WindowStyle Hidden -Wait -PassThru -RedirectStandardOutput $failureOutput -RedirectStandardError $failureError
+    if($failureRun.ExitCode -eq 0 -or (Get-Item -LiteralPath $failureOutput).Length -ne 0 -or (Get-Content -LiteralPath $failureError -Raw) -notmatch 'failed'){
+        throw 'Expected a clock error and no benchmark output.'
+    }
+    Write-Output 'PASS: failed CPU-clock read aborts benchmark without a timing report'
+    exit 0
 } finally {Pop-Location}
