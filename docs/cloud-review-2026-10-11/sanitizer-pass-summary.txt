@@ -1,0 +1,13 @@
+Filtered PASS lines from the final host ASan/UBSan run; not a complete log. LeakSanitizer unavailable under container ptrace.
+PASS: local cues, DMA completion, re-wake, PTT mute, late-chunk ACK/discard, silent disconnect
+PASS: literal wire Base64 traverses production terminal_receive and PCM conversion
+PASS: 77 chunk/tail splits, signed 24k-to-16k conversion, DMA-only played credits
+PASS: physical ring wrap, tail wrap, separate DMA owners and drain receipts
+PASS: selective cancellation, ring compaction, DMA zeroing, blocked late chunks, safe slot reuse
+PASS: unchanged conservative buffer-full interrupt, duplicate/done/invalid chunk ACK behavior
+PASS: ISR before single publication sees only old wr; 960 source samples use two lock entries
+PASS: nearly-full reservation and concurrent DMA consumption preserve all unread samples
+PASS: randomized chunk sizes and DMA interleave preserve exact source credit totals
+PASS: near-uint32-rollover normalization preserves unread data, DMA credits and cancel compaction
+PASS: production playback/main checks using cJSON 1.7.18
+PASS: PTT gating, single commit, delayed ready, stale capture discard, overflow, button debounce

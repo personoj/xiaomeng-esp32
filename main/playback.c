@@ -242,21 +242,35 @@ void playback_event(const cJSON *event) {
     uint8_t *pcm=heap_caps_malloc(cap,MALLOC_CAP_SPIRAM);
     if(!pcm)goto done;
     if(mbedtls_base64_decode(pcm,cap,&n,(const uint8_t*)b64,strlen(b64)) || n%2) {free(pcm);goto done;}
-    uint32_t free_samples;
-    portENTER_CRITICAL(&lock);free_samples=RING_SAMPLES-(wr-rd);portEXIT_CRITICAL(&lock);
+    uint32_t free_samples,write_pos;
+    portENTER_CRITICAL(&lock);
+    // RING_SAMPLES does not divide 2^32. Normalize before counter rollover so
+    // free logical positions cannot alias unread cells across that discontinuity.
+    if(wr>UINT32_MAX-RING_SAMPLES) {
+        uint32_t base=rd-rd%RING_SAMPLES;rd-=base;wr-=base;
+    }
+    write_pos=wr;free_samples=RING_SAMPLES-(write_pos-rd);portEXIT_CRITICAL(&lock);
     if(n/2+4>free_samples) {
         free(pcm);cancel(NULL);terminal_status("error","playback_buffer_full");
         cJSON *e=cJSON_CreateObject();cJSON_AddStringToObject(e,"type","interrupt");transport_send(e);goto done;
     }
     if(!r->received)r->received_us=esp_timer_get_time();
     r->seq=seq;r->received+=n/2;
+    // guard serializes producers, cancellation/compaction and slot reuse. Reserve
+    // against rd above, then write only into free slots without blocking the ISR.
+    // sent() can advance rd, but sees only the old wr until the final locked
+    // publication. The existing conservative capacity check covers all outputs
+    // plus the carried tail; available space can only grow while guard is held.
     for(size_t j=0;j<n/2;j++) {
         r->tail[r->ntail++]=((int16_t*)pcm)[j];
         if(r->ntail==3) {
             // 24k -> 16k streaming conversion; source credits remain in 24k units.
-            put(slot,r->tail[0],1);put(slot,((int32_t)r->tail[1]+r->tail[2])/2,2);r->ntail=0;
+            ring[write_pos++%RING_SAMPLES]=(sample_t){r->tail[0],slot,1};
+            ring[write_pos++%RING_SAMPLES]=(sample_t){((int32_t)r->tail[1]+r->tail[2])/2,slot,2};
+            r->ntail=0;
         }
     }
+    portENTER_CRITICAL(&lock);wr=write_pos;portEXIT_CRITICAL(&lock);
     free(pcm);
 done:
     if(!strcmp(type,"audio.delta")) {

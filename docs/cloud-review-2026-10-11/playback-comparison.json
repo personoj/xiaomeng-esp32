@@ -1,0 +1,682 @@
+{
+  "generated_at_utc": "2026-10-11T10:17:50.574281+00:00",
+  "scope": "Synthetic host CPU time for playback_event with preconstructed JSON, mocked decoder and instrumented host locks. No ESP32, real RTOS, API, acoustic, or end-to-end measurement.",
+  "timing_unit": "Each sample is the mean process CPU nanoseconds/event of 4000 sequential events, not a per-packet latency percentile.",
+  "environment": {
+    "platform": "Linux-6.18.44-x86_64-with-glibc2.41",
+    "python": "3.12.14",
+    "logical_cpus_reported": 9,
+    "compiler": "cc (Debian 14.2.0-19) 14.2.0"
+  },
+  "sha256": {
+    "baseline_playback": "e450562e721afd7af65cc1741027bff80869ceb7cbdbf5c2068c16a7ccb2d925",
+    "candidate_playback": "dfe1d02a71f781d0f8216e66f37cf1a8fb9dc0bc37b10370d6dcf92f67e15d78",
+    "native_playback_bench.c": "beab3b76d16c59d0caf82ddc5dd464fcce206a80e75e6238bdfe9e07f8fa96e1",
+    "native_mocks.h": "c792e40000456fd5efcf8d32d3b4a7b91b3338c0853145e444aa3709ec930eb6",
+    "native_audio_helpers.h": "a2aeb4af6567b30f07bc3c179c4dc3bf831b0b32dd72a99d859b5f57af29821f"
+  },
+  "alternating_pairs": 5,
+  "summary": [
+    {
+      "source_samples": 96,
+      "before": {
+        "critical_entries_per_event": 65,
+        "batch_count": 45,
+        "cpu_ns_per_event_median": 1082.5,
+        "cpu_ns_per_event_min": 1001.75,
+        "cpu_ns_per_event_max": 1469.75
+      },
+      "after": {
+        "critical_entries_per_event": 2,
+        "batch_count": 45,
+        "cpu_ns_per_event_median": 992.0,
+        "cpu_ns_per_event_min": 942.0,
+        "cpu_ns_per_event_max": 1196.25
+      },
+      "host_cpu_reduction_percent": 8.360277136258665
+    },
+    {
+      "source_samples": 960,
+      "before": {
+        "critical_entries_per_event": 641,
+        "batch_count": 45,
+        "cpu_ns_per_event_median": 7538.25,
+        "cpu_ns_per_event_min": 7142.75,
+        "cpu_ns_per_event_max": 12981.5
+      },
+      "after": {
+        "critical_entries_per_event": 2,
+        "batch_count": 45,
+        "cpu_ns_per_event_median": 6792.25,
+        "cpu_ns_per_event_min": 6399.0,
+        "cpu_ns_per_event_max": 8238.75
+      },
+      "host_cpu_reduction_percent": 9.89619606672636
+    },
+    {
+      "source_samples": 3840,
+      "before": {
+        "critical_entries_per_event": 2561,
+        "batch_count": 45,
+        "cpu_ns_per_event_median": 29391.75,
+        "cpu_ns_per_event_min": 27460.0,
+        "cpu_ns_per_event_max": 34390.5
+      },
+      "after": {
+        "critical_entries_per_event": 2,
+        "batch_count": 45,
+        "cpu_ns_per_event_median": 25436.25,
+        "cpu_ns_per_event_min": 24264.5,
+        "cpu_ns_per_event_max": 33284.75
+      },
+      "host_cpu_reduction_percent": 13.457858072418283
+    }
+  ],
+  "raw_runs": {
+    "before": [
+      {
+        "kind": "synthetic_host_playback_event",
+        "clock": "C clock() process CPU",
+        "locks": "instrumented host substitutes, not FreeRTOS",
+        "runs": [
+          {
+            "source_samples": 96,
+            "output_samples": 64,
+            "iterations_per_repeat": 4000,
+            "cpu_ns_per_event": [
+              1404.0,
+              1069.75,
+              1084.25,
+              1143.5,
+              1025.0,
+              1034.0,
+              1001.75,
+              1082.5,
+              1083.5
+            ],
+            "critical_entries_per_event": 65
+          },
+          {
+            "source_samples": 960,
+            "output_samples": 640,
+            "iterations_per_repeat": 4000,
+            "cpu_ns_per_event": [
+              7508.5,
+              7538.25,
+              7860.5,
+              7442.75,
+              7453.25,
+              7557.5,
+              7857.5,
+              7621.25,
+              9058.5
+            ],
+            "critical_entries_per_event": 641
+          },
+          {
+            "source_samples": 3840,
+            "output_samples": 2560,
+            "iterations_per_repeat": 4000,
+            "cpu_ns_per_event": [
+              29771.75,
+              29682.5,
+              28378.25,
+              29399.75,
+              29307.5,
+              28623.25,
+              28917.5,
+              29123.75,
+              28946.5
+            ],
+            "critical_entries_per_event": 2561
+          }
+        ],
+        "checksum": 2544480000
+      },
+      {
+        "kind": "synthetic_host_playback_event",
+        "clock": "C clock() process CPU",
+        "locks": "instrumented host substitutes, not FreeRTOS",
+        "runs": [
+          {
+            "source_samples": 96,
+            "output_samples": 64,
+            "iterations_per_repeat": 4000,
+            "cpu_ns_per_event": [
+              1089.25,
+              1069.0,
+              1054.25,
+              1090.25,
+              1015.75,
+              1014.0,
+              1039.25,
+              1083.0,
+              1016.0
+            ],
+            "critical_entries_per_event": 65
+          },
+          {
+            "source_samples": 960,
+            "output_samples": 640,
+            "iterations_per_repeat": 4000,
+            "cpu_ns_per_event": [
+              7421.5,
+              7179.25,
+              7319.75,
+              7370.25,
+              7142.75,
+              7298.5,
+              7350.5,
+              7344.75,
+              7264.25
+            ],
+            "critical_entries_per_event": 641
+          },
+          {
+            "source_samples": 3840,
+            "output_samples": 2560,
+            "iterations_per_repeat": 4000,
+            "cpu_ns_per_event": [
+              28050.75,
+              30941.75,
+              32304.75,
+              28079.75,
+              27629.75,
+              27875.75,
+              27661.5,
+              27555.0,
+              27460.0
+            ],
+            "critical_entries_per_event": 2561
+          }
+        ],
+        "checksum": 2544480000
+      },
+      {
+        "kind": "synthetic_host_playback_event",
+        "clock": "C clock() process CPU",
+        "locks": "instrumented host substitutes, not FreeRTOS",
+        "runs": [
+          {
+            "source_samples": 96,
+            "output_samples": 64,
+            "iterations_per_repeat": 4000,
+            "cpu_ns_per_event": [
+              1088.75,
+              1082.75,
+              1084.75,
+              1058.0,
+              1118.0,
+              1096.25,
+              1178.0,
+              1109.25,
+              1052.0
+            ],
+            "critical_entries_per_event": 65
+          },
+          {
+            "source_samples": 960,
+            "output_samples": 640,
+            "iterations_per_repeat": 4000,
+            "cpu_ns_per_event": [
+              9086.0,
+              7967.75,
+              12981.5,
+              8584.25,
+              7457.75,
+              7363.0,
+              8221.5,
+              7586.5,
+              7447.0
+            ],
+            "critical_entries_per_event": 641
+          },
+          {
+            "source_samples": 3840,
+            "output_samples": 2560,
+            "iterations_per_repeat": 4000,
+            "cpu_ns_per_event": [
+              31268.25,
+              31413.25,
+              29592.0,
+              28711.25,
+              27726.75,
+              28570.5,
+              28369.75,
+              29190.75,
+              28251.25
+            ],
+            "critical_entries_per_event": 2561
+          }
+        ],
+        "checksum": 2544480000
+      },
+      {
+        "kind": "synthetic_host_playback_event",
+        "clock": "C clock() process CPU",
+        "locks": "instrumented host substitutes, not FreeRTOS",
+        "runs": [
+          {
+            "source_samples": 96,
+            "output_samples": 64,
+            "iterations_per_repeat": 4000,
+            "cpu_ns_per_event": [
+              1123.75,
+              1101.5,
+              1469.75,
+              1174.75,
+              1102.25,
+              1243.25,
+              1279.0,
+              1059.25,
+              1082.0
+            ],
+            "critical_entries_per_event": 65
+          },
+          {
+            "source_samples": 960,
+            "output_samples": 640,
+            "iterations_per_repeat": 4000,
+            "cpu_ns_per_event": [
+              7996.0,
+              7993.0,
+              7626.75,
+              8128.0,
+              7974.75,
+              8319.75,
+              8136.0,
+              11289.75,
+              7474.5
+            ],
+            "critical_entries_per_event": 641
+          },
+          {
+            "source_samples": 3840,
+            "output_samples": 2560,
+            "iterations_per_repeat": 4000,
+            "cpu_ns_per_event": [
+              27519.5,
+              28075.25,
+              28354.25,
+              31112.0,
+              30741.0,
+              29581.5,
+              29578.25,
+              29391.75,
+              30863.5
+            ],
+            "critical_entries_per_event": 2561
+          }
+        ],
+        "checksum": 2544480000
+      },
+      {
+        "kind": "synthetic_host_playback_event",
+        "clock": "C clock() process CPU",
+        "locks": "instrumented host substitutes, not FreeRTOS",
+        "runs": [
+          {
+            "source_samples": 96,
+            "output_samples": 64,
+            "iterations_per_repeat": 4000,
+            "cpu_ns_per_event": [
+              1048.5,
+              1061.25,
+              1048.5,
+              1030.5,
+              1041.75,
+              1032.5,
+              1044.5,
+              1209.75,
+              1074.25
+            ],
+            "critical_entries_per_event": 65
+          },
+          {
+            "source_samples": 960,
+            "output_samples": 640,
+            "iterations_per_repeat": 4000,
+            "cpu_ns_per_event": [
+              7387.75,
+              7447.5,
+              7280.0,
+              7247.75,
+              7300.75,
+              7455.25,
+              7792.0,
+              7864.0,
+              7835.0
+            ],
+            "critical_entries_per_event": 641
+          },
+          {
+            "source_samples": 3840,
+            "output_samples": 2560,
+            "iterations_per_repeat": 4000,
+            "cpu_ns_per_event": [
+              30245.0,
+              30327.0,
+              31100.0,
+              31654.5,
+              32026.75,
+              29490.25,
+              31988.25,
+              34390.5,
+              31492.75
+            ],
+            "critical_entries_per_event": 2561
+          }
+        ],
+        "checksum": 2544480000
+      }
+    ],
+    "after": [
+      {
+        "kind": "synthetic_host_playback_event",
+        "clock": "C clock() process CPU",
+        "locks": "instrumented host substitutes, not FreeRTOS",
+        "runs": [
+          {
+            "source_samples": 96,
+            "output_samples": 64,
+            "iterations_per_repeat": 4000,
+            "cpu_ns_per_event": [
+              1037.25,
+              991.0,
+              968.0,
+              968.0,
+              1099.75,
+              1189.0,
+              1056.5,
+              954.0,
+              997.75
+            ],
+            "critical_entries_per_event": 2
+          },
+          {
+            "source_samples": 960,
+            "output_samples": 640,
+            "iterations_per_repeat": 4000,
+            "cpu_ns_per_event": [
+              6536.0,
+              6710.25,
+              6581.5,
+              6828.25,
+              6523.0,
+              6644.75,
+              6634.25,
+              7005.0,
+              6745.75
+            ],
+            "critical_entries_per_event": 2
+          },
+          {
+            "source_samples": 3840,
+            "output_samples": 2560,
+            "iterations_per_repeat": 4000,
+            "cpu_ns_per_event": [
+              25436.25,
+              25685.0,
+              24809.75,
+              25400.75,
+              25466.5,
+              24849.5,
+              25198.75,
+              25000.5,
+              25240.75
+            ],
+            "critical_entries_per_event": 2
+          }
+        ],
+        "checksum": 2544480000
+      },
+      {
+        "kind": "synthetic_host_playback_event",
+        "clock": "C clock() process CPU",
+        "locks": "instrumented host substitutes, not FreeRTOS",
+        "runs": [
+          {
+            "source_samples": 96,
+            "output_samples": 64,
+            "iterations_per_repeat": 4000,
+            "cpu_ns_per_event": [
+              976.25,
+              990.75,
+              1037.0,
+              970.5,
+              979.0,
+              1134.75,
+              992.25,
+              942.0,
+              945.75
+            ],
+            "critical_entries_per_event": 2
+          },
+          {
+            "source_samples": 960,
+            "output_samples": 640,
+            "iterations_per_repeat": 4000,
+            "cpu_ns_per_event": [
+              6581.0,
+              6445.25,
+              6444.25,
+              6415.5,
+              6399.0,
+              6437.25,
+              6579.5,
+              6453.75,
+              6591.0
+            ],
+            "critical_entries_per_event": 2
+          },
+          {
+            "source_samples": 3840,
+            "output_samples": 2560,
+            "iterations_per_repeat": 4000,
+            "cpu_ns_per_event": [
+              24566.75,
+              25290.0,
+              24645.0,
+              25074.5,
+              24604.0,
+              24823.5,
+              24461.5,
+              24289.25,
+              24264.5
+            ],
+            "critical_entries_per_event": 2
+          }
+        ],
+        "checksum": 2544480000
+      },
+      {
+        "kind": "synthetic_host_playback_event",
+        "clock": "C clock() process CPU",
+        "locks": "instrumented host substitutes, not FreeRTOS",
+        "runs": [
+          {
+            "source_samples": 96,
+            "output_samples": 64,
+            "iterations_per_repeat": 4000,
+            "cpu_ns_per_event": [
+              1108.25,
+              1086.75,
+              966.0,
+              988.75,
+              1023.5,
+              985.0,
+              970.0,
+              1044.25,
+              976.75
+            ],
+            "critical_entries_per_event": 2
+          },
+          {
+            "source_samples": 960,
+            "output_samples": 640,
+            "iterations_per_repeat": 4000,
+            "cpu_ns_per_event": [
+              7310.0,
+              6872.0,
+              7985.0,
+              8203.5,
+              7788.5,
+              8238.75,
+              7582.25,
+              6806.0,
+              6916.0
+            ],
+            "critical_entries_per_event": 2
+          },
+          {
+            "source_samples": 3840,
+            "output_samples": 2560,
+            "iterations_per_repeat": 4000,
+            "cpu_ns_per_event": [
+              25873.5,
+              25675.25,
+              25470.0,
+              25660.5,
+              25094.75,
+              24971.0,
+              25300.0,
+              33284.75,
+              27900.75
+            ],
+            "critical_entries_per_event": 2
+          }
+        ],
+        "checksum": 2544480000
+      },
+      {
+        "kind": "synthetic_host_playback_event",
+        "clock": "C clock() process CPU",
+        "locks": "instrumented host substitutes, not FreeRTOS",
+        "runs": [
+          {
+            "source_samples": 96,
+            "output_samples": 64,
+            "iterations_per_repeat": 4000,
+            "cpu_ns_per_event": [
+              1196.25,
+              1013.5,
+              988.0,
+              992.0,
+              1076.75,
+              1008.25,
+              993.0,
+              1135.25,
+              1001.5
+            ],
+            "critical_entries_per_event": 2
+          },
+          {
+            "source_samples": 960,
+            "output_samples": 640,
+            "iterations_per_repeat": 4000,
+            "cpu_ns_per_event": [
+              6817.25,
+              7611.0,
+              8061.0,
+              7207.75,
+              6611.25,
+              8083.0,
+              7823.25,
+              8010.5,
+              7235.75
+            ],
+            "critical_entries_per_event": 2
+          },
+          {
+            "source_samples": 3840,
+            "output_samples": 2560,
+            "iterations_per_repeat": 4000,
+            "cpu_ns_per_event": [
+              27724.0,
+              27714.5,
+              27860.25,
+              26202.0,
+              26024.0,
+              29600.75,
+              27559.5,
+              26294.0,
+              27205.75
+            ],
+            "critical_entries_per_event": 2
+          }
+        ],
+        "checksum": 2544480000
+      },
+      {
+        "kind": "synthetic_host_playback_event",
+        "clock": "C clock() process CPU",
+        "locks": "instrumented host substitutes, not FreeRTOS",
+        "runs": [
+          {
+            "source_samples": 96,
+            "output_samples": 64,
+            "iterations_per_repeat": 4000,
+            "cpu_ns_per_event": [
+              1105.0,
+              982.75,
+              943.0,
+              982.0,
+              996.0,
+              965.5,
+              982.25,
+              969.75,
+              1080.75
+            ],
+            "critical_entries_per_event": 2
+          },
+          {
+            "source_samples": 960,
+            "output_samples": 640,
+            "iterations_per_repeat": 4000,
+            "cpu_ns_per_event": [
+              6935.5,
+              6792.25,
+              6981.75,
+              6687.75,
+              6644.5,
+              6584.5,
+              6675.0,
+              6908.0,
+              6594.25
+            ],
+            "critical_entries_per_event": 2
+          },
+          {
+            "source_samples": 3840,
+            "output_samples": 2560,
+            "iterations_per_repeat": 4000,
+            "cpu_ns_per_event": [
+              25711.25,
+              26673.25,
+              27419.0,
+              27542.5,
+              27919.25,
+              24805.25,
+              25066.25,
+              24464.25,
+              24690.5
+            ],
+            "critical_entries_per_event": 2
+          }
+        ],
+        "checksum": 2544480000
+      }
+    ]
+  },
+  "counter_rollover_regression": {
+    "before": {
+      "returncode": -6,
+      "output": "native_playback: [cloud-workspace]/xiaoyun-esp32/tests/native_audio_helpers.h:57: check_sample: Assertion `s.slot==slot&&s.value==value&&s.credit==credit' failed.\n"
+    },
+    "after": {
+      "returncode": 0,
+      "output": "PASS: near-uint32-rollover normalization preserves unread data, DMA credits and cancel compaction\n"
+    }
+  },
+  "measurement_context": "Final run launched at 10:17:32 UTC after rendering and readability workers explicitly confirmed their CPU-heavy jobs had completed. No known overlapping project benchmark/audit; external host contention remains possible."
+}

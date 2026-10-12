@@ -1,0 +1,14 @@
+{
+  "reviewed_local_head": "18ae59eb3ca2659cce2f3967b8b03aeef6e7bab5",
+  "baseline": "963d24057bbe7b0144b2c878323bc07d30473fc0",
+  "code_tests": "unchanged reviewed code; this supplemental commit adds only public synthetic evidence",
+  "remote_publication": "draft PR only; no merge or deployment",
+  "browser_gpu_hardware_model_acceptance": "not completed",
+  "native_candidate": "passed",
+  "native_baseline_common": "passed",
+  "asan": "passed",
+  "ubsan": "passed",
+  "lsan": "not run: container ptrace limitation",
+  "firmware_build": "not run",
+  "hardware": "not run"
+}
